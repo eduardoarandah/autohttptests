@@ -1,0 +1,55 @@
+{
+    "name": "eduardoarandah/autohttptests",
+    "type": "library",
+    "description": "Autogenerate http tests for laravel",
+    "keywords": [
+        "eduardoarandah",
+        "autohttptests"
+    ],
+    "homepage": "https://github.com/eduardoarandah/autohttptests",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Eduardo Aranda Hernandez",
+            "email": "eduardoarandah@gmail.com",
+            "homepage": "https://eduardoarandah.github.io/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "illuminate/support": "~5.1",
+        "php" : "~5.6|~7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : ">=5.4.3",
+        "squizlabs/php_codesniffer": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Eduardoarandah\\Autohttptests\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Eduardoarandah\\Autohttptests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "check-style": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
+        "fix-style": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Eduardoarandah\\Autohttptests\\AutohttptestsServiceProvider"
+            ]
+        },
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
