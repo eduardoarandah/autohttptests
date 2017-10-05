@@ -14,9 +14,10 @@ This middleware will **intercept** your requests and **recreate** expected behav
 
 Your tests are automatically generated and saved in storage as **autohttptests.txt**
 
+- Make requestas acting as same user
 - Http requests with any verb (get, post)
-- Assert http code received
-- Assert errors received
+- Assert http response code
+- Assert errors
 
 ## Example 
 
@@ -68,19 +69,67 @@ $ composer require eduardoarandah/autohttptests
 
 ## Usage
 
-Add this line to app/Http/Kernel.php and **remove it** when you are done, as it records every request. 
+Add this value to your .env file when you want to record your requests into tests
 
-Right now I don't know how to turn it on and off, any ideas? send me a message
+``` bash
+AUTOTESTS=true
+```
+
+When you are done, change it to AUTOTESTS=false
+
+Then create a test in your command line, example:
+
+``` bash
+php artisan make:test AutoTest
+```
+
+Copy the lines in your **storage/autohttptests.txt** file into your test, example:
 
 ``` php
-protected $middleware = [
-   
-    ...
+<?php
 
-    \eduardoarandah\AutoHttpTests::class
-];
+namespace Tests\Feature;
+
+use Tests\TestCase;
+
+class AutoTest extends TestCase
+{
+
+    public function testExample()
+    {
+        $this->post('home/something', [
+            'name'             => 'a',
+            'lastname'         => 'a',
+            'city'             => '',
+            'hobbies'          => '',
+            'twitter_username' => 'a',
+        ])
+            ->assertStatus(302)
+            ->assertSessionHasErrors([
+                'name',
+                'country_id',
+                'twitter_username',
+            ]);
+
+        $this->post('home/something', [
+            'name'             => 'asdfa',
+            'lastname'         => 'asdfa',
+            'country_id'       => '1',
+            'city'             => '',
+            'hobbies'          => '',
+            'twitter_username' => 'asdfa',
+        ])
+            ->assertStatus(302)
+            ->assertRedirect('home/something');
+
+        $this->get('home/something')
+            ->assertStatus(200);
+
+    }
+}
 
 ```
+
 
 ## Credits
 
