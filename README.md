@@ -21,6 +21,10 @@ The command will **intercept** your requests and translate the response as a tes
 
 When finished, your test will be saved in tests/Feature/
 
+## Demo in video
+
+[![demo](https://img.youtube.com/vi/cpLb7XDAFNw/0.jpg)](https://www.youtube.com/watch?v=cpLb7XDAFNw)
+
 **What does it test?**
 
 - Request acting as same user
