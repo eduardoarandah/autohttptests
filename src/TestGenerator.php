@@ -10,12 +10,12 @@ class TestGenerator
         if ($this->isUrlBlackListed($request)) {
             return '';
         }
-        $text = '$this';
+        $text = "\n\t\t\$this";
         $text .= $this->getActingAs($request);
         $text .= $this->getMethod($request);
         $text .= $this->getStatusCode($response);
         $text .= $this->getErrors($request, $response);
-        $text .= ";\n";
+        $text .= ";";
 
         return $text;
     }
@@ -24,19 +24,19 @@ class TestGenerator
         $out = "[";
         foreach ($array as $key => $value) {
             if (!in_array($key, ['_token', '_method'])) {
-                $out .= "\n'$key' => '$value',";
+                $out .= "\n\t\t'$key' => '$value',";
             }
         }
-        $out .= "\n]";
+        $out .= "\n\t\t]";
         return $out;
     }
     public function representArray($array)
     {
         $out = "[";
         foreach ($array as $key) {
-            $out .= "\n'$key',";
+            $out .= "\n\t\t'$key',";
         }
-        $out .= "\n]";
+        $out .= "\n\t\t]";
         return $out;
     }
     public function shortenUrl($url)
@@ -60,8 +60,9 @@ class TestGenerator
     {
         //acting as user
         if ($request->user()) {
-            $user_id = $request->user()->id;
-            return "\n->actingAs(User::find($user_id))";
+            $user=$request->user();            
+            $class=get_class($user);
+            return "\n\t\t->actingAs(\\".$class."::find(".$user->id."))";
         } else {
             return '';
         }
@@ -74,16 +75,16 @@ class TestGenerator
         $method = strtolower($request->getMethod());
         if (count($request->all())) {
             $requestParams = $this->representArrayKV($request->all());
-            return "\n->$method('$shortUrl',$requestParams)";
+            return "\n\t\t->$method('$shortUrl',$requestParams)";
         } else {
-            return "\n->$method('$shortUrl')";
+            return "\n\t\t->$method('$shortUrl')";
         }
     }
     public function getStatusCode($response)
     {
         //Status
         $status = $response->getStatusCode();
-        return "\n->assertStatus($status)";
+        return "\n\t\t->assertStatus($status)";
 
     }
     public function getErrors($request, $response)
@@ -94,7 +95,7 @@ class TestGenerator
             foreach ($request->getSession()->get('errors')->getBags() as $errorBag) {
 
                 $fieldsWithError = $this->representArray($errorBag->keys());
-                return "\n->assertSessionHasErrors($fieldsWithError)";
+                return "\n\t\t->assertSessionHasErrors($fieldsWithError)";
 
             }
         } else {
@@ -102,7 +103,7 @@ class TestGenerator
             //Redirect
             if ($response->isRedirect()) {
                 $redirectUrl = $this->shortenUrl($response->headers->get('Location'));
-                return "\n->assertRedirect('$redirectUrl')";
+                return "\n\t\t->assertRedirect('$redirectUrl')";
 
             }
 

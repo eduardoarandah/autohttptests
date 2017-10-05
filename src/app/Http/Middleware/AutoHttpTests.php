@@ -4,9 +4,11 @@ namespace Eduardoarandah\Autohttptests\app\Http\Middleware;
 
 use Closure;
 use Eduardoarandah\Autohttptests\TestGenerator;
+use Symfony\Component\Process\Process;
 
 class AutoHttpTests
 {
+
     /**
      * Handle an incoming request.
      *
@@ -20,15 +22,35 @@ class AutoHttpTests
     }
     public function terminate($request, $response)
     {
-        if (env('AUTOTESTS')) {
+        $filePath=storage_path('autohttptests.txt');
 
-            $generator = new TestGenerator();
-            $test      = $generator->generate($request, $response);
+        if (file_exists($filePath)) {
 
-            if ($test) {
-                file_put_contents(storage_path('autohttptests.txt'), $test . "\n", FILE_APPEND | LOCK_EX);
+            //check if command is running
+            if ($this->commandIsRunning()) {
+
+                //create generator
+                $testGenerator = new TestGenerator();
+                $test          = $testGenerator->generate($request, $response);
+
+                if ($test) {
+                    file_put_contents($filePath, $test . "\n", FILE_APPEND | LOCK_EX);
+                }
             }
 
         }
+    }
+    public function commandIsRunning()
+    {
+        $process = new Process('ps ax | grep autohttptest:create | grep -v grep');
+        $process->run();
+
+        // executes after the command finishes
+        if (!$process->isSuccessful()) {
+            return false;
+        }
+
+        return $process->getOutput() ? true : false;
+
     }
 }
