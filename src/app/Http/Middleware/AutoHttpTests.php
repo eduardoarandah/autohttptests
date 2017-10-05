@@ -20,11 +20,15 @@ class AutoHttpTests
     }
     public function terminate($request, $response)
     {
+        if (env('AUTOTESTS')) {
 
-        $generator = new TestGenerator();
-        $test      = $generator->generateTest($request, $response);
+            $generator = new TestGenerator();
+            $test      = $generator->generate($request, $response);
 
-        file_put_contents(storage_path('autohttptests.txt'), $test . "\n", FILE_APPEND | LOCK_EX);
+            if ($test) {
+                file_put_contents(storage_path('autohttptests.txt'), $test . "\n", FILE_APPEND | LOCK_EX);
+            }
 
+        }
     }
 }
