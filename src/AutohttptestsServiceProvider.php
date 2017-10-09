@@ -2,8 +2,6 @@
 
 namespace Eduardoarandah\Autohttptests;
 
-use Eduardoarandah\Autohttptests\app\Console\Commands\AutoHttpTest;
-use Eduardoarandah\Autohttptests\app\Http\Middleware\AutoHttpTests;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
 
@@ -18,12 +16,12 @@ class AutohttptestsServiceProvider extends ServiceProvider
     {
         //register middleware
         $kernel = $this->app[Kernel::class];
-        $kernel->pushMiddleware(AutoHttpTests::class);
+        $kernel->pushMiddleware(\Eduardoarandah\Autohttptests\app\Http\Middleware\AutoHttpTests::class);
 
         //register command
         if ($this->app->runningInConsole()) {
             $this->commands([
-                AutoHttpTest::class,
+                \Eduardoarandah\Autohttptests\app\Console\Commands\AutoHttpTest::class,
             ]);
         }
     }
