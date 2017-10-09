@@ -96,7 +96,7 @@ $ composer require eduardoarandah/autohttptests
 If you are using laravel < 5.4 add to providers in config/app.php
 
 ```
-Eduardoarandah\Autohttptests\AutohttptestsServiceProvider::class,
+EduardoArandaH\AutoHttpTests\AutoHttpTestsServiceProvider::class,
 ```
 
 ## Usage

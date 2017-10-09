@@ -26,12 +26,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Eduardoarandah\\Autohttptests\\": "src"
+            "EduardoArandaH\\AutoHttpTests\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Eduardoarandah\\Autohttptests\\": "tests"
+            "EduardoArandaH\\AutoHttpTests\\": "tests"
         }
     },
     "scripts": {
@@ -42,7 +42,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Eduardoarandah\\Autohttptests\\AutohttptestsServiceProvider"
+                "EduardoArandaH\\AutoHttpTests\\AutoHttpTestsServiceProvider"
             ]
         },
         "branch-alias": {

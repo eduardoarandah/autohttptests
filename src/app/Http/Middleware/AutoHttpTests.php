@@ -1,9 +1,9 @@
 <?php
 
-namespace Eduardoarandah\Autohttptests\app\Http\Middleware;
+namespace EduardoArandaH\AutoHttpTests\app\Http\Middleware;
 
 use Closure;
-use Eduardoarandah\Autohttptests\TestGenerator;
+use EduardoArandaH\AutoHttpTests\TestGenerator;
 use Symfony\Component\Process\Process;
 
 class AutoHttpTests

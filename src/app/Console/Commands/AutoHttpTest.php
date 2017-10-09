@@ -1,6 +1,6 @@
 <?php
 
-namespace Eduardoarandah\Autohttptests\app\Console\Commands;
+namespace EduardoArandaH\AutoHttpTests\app\Console\Commands;
 
 use Illuminate\Console\Command;
 

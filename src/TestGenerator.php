@@ -1,6 +1,6 @@
 <?php
 
-namespace Eduardoarandah\Autohttptests;
+namespace EduardoArandaH\AutoHttpTests;
 
 class TestGenerator
 {
