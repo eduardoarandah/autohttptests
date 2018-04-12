@@ -5,8 +5,8 @@ namespace EduardoArandaH\AutoHttpTests\app\Console\Commands;
 use Illuminate\Console\Command;
 
 class AutoHttpTest extends Command
-{
-    protected $signature = 'autohttptest:create';
+{    
+    protected $signature = 'autohttptest:create {name}';
     protected $description = 'Starts the recording of a test';
 
     public function __construct()
@@ -18,7 +18,12 @@ class AutoHttpTest extends Command
     {
         $filePath = storage_path('autohttptests.txt');
 
-        $name = ucfirst($this->ask('Name your test example: HomePage'));
+        if($this->argument("name"))
+            $name=$this->argument("name");
+        else
+            $name=$this->ask('Name your test example: HomePage');
+
+        $name = ucfirst($name);
 
         //determine final path
         $finalPath = base_path("tests/Feature/{$name}Test.php");

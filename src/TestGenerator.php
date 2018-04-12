@@ -24,7 +24,8 @@ class TestGenerator
         $out = "[";
         foreach ($array as $key => $value) {
             if (!in_array($key, ['_token', '_method'])) {
-                $out .= "\n\t\t'$key' => '$value',";
+                if(!is_array($key) && !is_array($value))
+                    $out .= "\n\t\t\"$key\" => \"$value\",";
             }
         }
         $out .= "\n\t\t]";
@@ -34,7 +35,7 @@ class TestGenerator
     {
         $out = "[";
         foreach ($array as $key) {
-            $out .= "\n\t\t'$key',";
+            $out .= "\n\t\t\"$key\",";
         }
         $out .= "\n\t\t]";
         return $out;
@@ -72,12 +73,13 @@ class TestGenerator
     {
         $shortUrl = $this->shortenUrl($request->getUri());
         //make request
-        $method = strtolower($request->getMethod());
+        $method = strtolower($request->getMethod());        
+        info('xx',$request->all());
         if (count($request->all())) {
             $requestParams = $this->representArrayKV($request->all());
-            return "\n\t\t->$method('$shortUrl',$requestParams)";
+            return "\n\t\t->$method(\"$shortUrl\",$requestParams)";
         } else {
-            return "\n\t\t->$method('$shortUrl')";
+            return "\n\t\t->$method(\"$shortUrl\")";
         }
     }
     public function getStatusCode($response)
@@ -103,7 +105,7 @@ class TestGenerator
             //Redirect
             if ($response->isRedirect()) {
                 $redirectUrl = $this->shortenUrl($response->headers->get('Location'));
-                return "\n\t\t->assertRedirect('$redirectUrl')";
+                return "\n\t\t->assertRedirect(\"$redirectUrl\")";
 
             }
 
