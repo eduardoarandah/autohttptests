@@ -23,7 +23,7 @@ When finished, your test will be saved in tests/Feature/
 
 ## Demo in video
 
-[![demo](https://img.youtube.com/vi/cpLb7XDAFNw/0.jpg)](https://www.youtube.com/watch?v=cpLb7XDAFNw)
+![autohttptests-gif](https://user-images.githubusercontent.com/4065733/88353656-fcf9cc00-cd23-11ea-86b3-6c096378f540.gif)
 
 **What does it test?**
 
