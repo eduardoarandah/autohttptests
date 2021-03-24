@@ -5,9 +5,9 @@ namespace EduardoArandaH\AutoHttpTests\app\Console\Commands;
 use Illuminate\Console\Command;
 
 class AutoHttpTest extends Command
-{    
-    protected $signature = 'autohttptest:create {name}';
-    protected $description = 'Starts the recording of a test';
+{
+    protected $signature = "autohttptest:create {name}";
+    protected $description = "Starts the recording of a test";
 
     public function __construct()
     {
@@ -16,12 +16,13 @@ class AutoHttpTest extends Command
 
     public function handle()
     {
-        $filePath = storage_path('autohttptests.txt');
+        $filePath = storage_path("autohttptests.txt");
 
-        if($this->argument("name"))
-            $name=$this->argument("name");
-        else
-            $name=$this->ask('Name your test example: HomePage');
+        if ($this->argument("name")) {
+            $name = $this->argument("name");
+        } else {
+            $name = $this->ask("Name your test example: HomePage");
+        }
 
         $name = ucfirst($name);
 
@@ -40,10 +41,13 @@ class AutoHttpTest extends Command
         $this->line("Recording...");
 
         //finish and save
-        if ($this->confirm('Save recording?') && file_exists($filePath)) {
-
+        if ($this->confirm("Save recording?") && file_exists($filePath)) {
             //finish template
-            file_put_contents($filePath, $this->finishTemplate(), FILE_APPEND | LOCK_EX);
+            file_put_contents(
+                $filePath,
+                $this->finishTemplate(),
+                FILE_APPEND | LOCK_EX
+            );
 
             //move to its final destination
             if (!file_exists(base_path("tests/Feature"))) {
@@ -54,9 +58,7 @@ class AutoHttpTest extends Command
             //tell the user
             $this->line("Test saved as $finalPath");
             return;
-
         } else {
-
             //if cancelled, delete
             unlink($filePath);
         }
@@ -77,5 +79,4 @@ class {$name}Test extends TestCase
     {
         return "\t}\n}";
     }
-
 }

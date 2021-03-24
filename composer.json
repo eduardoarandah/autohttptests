@@ -2,10 +2,7 @@
     "name": "eduardoarandah/autohttptests",
     "type": "library",
     "description": "Autogenerate http tests for laravel",
-    "keywords": [
-        "eduardoarandah",
-        "autohttptests"
-    ],
+    "keywords": ["eduardoarandah", "autohttptests"],
     "homepage": "https://github.com/eduardoarandah/autohttptests",
     "license": "MIT",
     "authors": [
@@ -17,12 +14,11 @@
         }
     ],
     "require": {
-        "illuminate/support": "~5.1",
-        "php" : "~5.6|~7.0"
+        "illuminate/support": "^7.0|^8.0",
+        "php": "^7.1|^8.0"
     },
     "require-dev": {
-        "phpunit/phpunit" : ">=5.4.3",
-        "squizlabs/php_codesniffer": "^2.3"
+        "phpunit/phpunit": ">=5.4.3"
     },
     "autoload": {
         "psr-4": {

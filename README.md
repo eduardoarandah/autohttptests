@@ -83,8 +83,6 @@ class SomethingTest extends TestCase
 Here we capture an unsuccessful post, with errors.
 Then, a **successful** post with redirection
 
-
-
 ## Install
 
 Via Composer
@@ -106,6 +104,17 @@ php artisan autohttptest:create
 
 ```
 
+## How does it work?
+
+when you run `php artisan autohttptest:create yourtest` it intercepts all requests and responses through a middleware. 
+
+The request is then analyzed and transformed into a test in a file `storage/autohttptests.txt`
+
+If you're curious, you can see the building of that file in real time with
+
+```
+tail -f storage/autohttptests.txt
+```
 
 ## Credits
 

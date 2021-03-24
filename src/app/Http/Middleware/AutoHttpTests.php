@@ -8,7 +8,6 @@ use Symfony\Component\Process\Process;
 
 class AutoHttpTests
 {
-
     /**
      * Handle an incoming request.
      *
@@ -18,39 +17,46 @@ class AutoHttpTests
      */
     public function handle($request, Closure $next)
     {
+        // do nothing in handle, only in terminate
         return $next($request);
     }
+
+    /**
+     * Analyze request after sent to the browser
+     * https://laravel.com/docs/8.x/middleware#terminable-middleware
+     */
     public function terminate($request, $response)
     {
-        $filePath=storage_path('autohttptests.txt');
+        // if command isn't running, ignore
+        if (!$this->isCommandRunning()) {
+            return;
+        }
 
-        if (file_exists($filePath)) {
+        //create generator
+        $testGenerator = new TestGenerator();
+        $test = $testGenerator->generate($request, $response);
 
-            //check if command is running
-            if ($this->commandIsRunning()) {
-
-                //create generator
-                $testGenerator = new TestGenerator();
-                $test          = $testGenerator->generate($request, $response);
-
-                if ($test) {
-                    file_put_contents($filePath, $test . "\n", FILE_APPEND | LOCK_EX);
-                }
-            }
-
+        if ($test) {
+            $filePath = storage_path("autohttptests.txt");
+            file_put_contents($filePath, $test . "\n", FILE_APPEND | LOCK_EX);
         }
     }
-    public function commandIsRunning()
+    public function isCommandRunning()
     {
-        $process = new Process('ps ax | grep autohttptest:create | grep -v grep');
+        // TODO: launch the command and check if it's running
+        // (new \EduardoArandaH\AutoHttpTests\app\Http\Middleware\AutoHttpTests())->isCommandRunning();
+
+        // check processes
+        $process = new Process(["ps", "ax"]);
         $process->run();
 
-        // executes after the command finishes
+        // if failed, return
         if (!$process->isSuccessful()) {
             return false;
         }
 
-        return $process->getOutput() ? true : false;
-
+        // check if command is running
+        $output = $process->getOutput();
+        return str_contains($output, "autohttptest:create");
     }
 }
